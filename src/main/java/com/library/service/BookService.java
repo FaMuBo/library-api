@@ -1,15 +1,13 @@
 package com.library.service;
 
-import com.library.entity.BookRequestDTO;
-import com.library.entity.BookResponseDTO;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
+import com.library.entity.BookDTO;
+
 public interface BookService {
-    BookResponseDTO createBook(BookRequestDTO bookRequestDTO);
-    List<BookResponseDTO> getAllBooks();
-    BookResponseDTO getBookById(Integer id);
-    BookResponseDTO updateBook(Integer id, BookRequestDTO bookRequestDTO);
+	BookDTO createBook(BookDTO bookDTO);
+    List<BookDTO> getAllBooks();
+    BookDTO getBookById(Integer id);
+    BookDTO updateBook(Integer id, BookDTO bookDTO);
     String deleteBook(Integer id);
 }
