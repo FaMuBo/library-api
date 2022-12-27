@@ -11,7 +11,7 @@ spring:
     ansi:
       enabled: always
   datasource:
-    url: jdbc:h2:mem:library
+    url: jdbc:h2:file:/home/furkaanasik/Projects/Java/Spring Boot/library-api/src/main/resources/library
     username: sa
     password: password
     driver-class-name: org.h2.Driver
@@ -28,7 +28,9 @@ spring:
   #      format_sql: true
   sql:
     init:
-      mode: always
-      
+      mode: never
+logging:
+  file:
+    path: src/main/resources
 
       

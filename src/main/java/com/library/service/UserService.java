@@ -3,9 +3,12 @@ package com.library.service;
 import java.util.List;
 
 import com.library.entity.UserDTO;
+import com.library.entity.UserResponseDTO;
 
 public interface UserService {
-	UserDTO createUser(UserDTO userDTO);
+	UserResponseDTO login(UserDTO userDTO);
+
+	UserDTO register(UserDTO userDTO);
 	
 	List<UserDTO> getAllUsers();
 	

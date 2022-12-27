@@ -2,6 +2,7 @@ package com.library.controller;
 
 import java.util.List;
 
+import com.library.entity.UserResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,10 +24,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 	private final UserService userService;
-	
-	@PostMapping("/create")
-	public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO){
-		return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.createUser(userDTO));
+
+	@PostMapping("/login")
+	public ResponseEntity<UserResponseDTO> login(@RequestBody UserDTO userDTO){
+		return ResponseEntity.ok(this.userService.login(userDTO));
+	}
+
+	@PostMapping("/register")
+	public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDTO){
+		return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.register(userDTO));
 	}
 	
 	@GetMapping

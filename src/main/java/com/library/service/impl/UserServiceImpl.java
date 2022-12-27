@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.library.entity.UserResponseDTO;
+import com.library.security.jwt.JwtUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +26,37 @@ import com.library.util.ModelUtil;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
-
 	private final RoleService roleService;
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final ModelUtil modelUtil;
-	
+	private final AuthenticationManager authenticationManager;
+	private final JwtUtils jwtUtils;
+
 	@Override
-	public UserDTO createUser(UserDTO userDTO) {
+	public UserResponseDTO login(UserDTO userDTO) {
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword())
+		);
+
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String jwt = jwtUtils.generateJwtToken(authentication);
+
+		return UserResponseDTO.builder()
+				.token("Bearer " + jwt)
+				.build();
+	}
+
+	@Override
+	public UserDTO register(UserDTO userDTO) {
+		if(Boolean.TRUE.equals(userRepository.existsByUsername(userDTO.getUsername()))){
+			log.error("User already exist!");
+			return null;
+		}
+
 		userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		User user = this.modelUtil.map(userDTO, User.class);
 		
@@ -47,7 +75,9 @@ public class UserServiceImpl implements UserService{
 		}
 		
 		user.setRoles(roles);
-		return this.modelUtil.map(this.userRepository.save(user), UserDTO.class);
+		UserDTO map = this.modelUtil.map(this.userRepository.save(user), UserDTO.class);
+		log.info("User created for: " + map);
+		return map;
 	}
 
 	@Override
