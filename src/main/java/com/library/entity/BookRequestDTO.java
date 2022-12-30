@@ -14,6 +14,7 @@ public class BookRequestDTO {
     private String description;
     private String language;
     private String publisher;
+    private String photo;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Integer authorId;
 }

@@ -11,5 +11,6 @@ public class AuthorResponseDTO {
 	private String name;
 	private String country;
 	private LocalDate birthDate;
+    private String photo;
 	private List<BookRequestDTO> books;
 }

@@ -14,4 +14,5 @@ public class BookResponseDTO {
     private String language;
     private String publisher;
     private AuthorRequestDTO author;
+    private String photo;
 }

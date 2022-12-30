@@ -27,6 +27,8 @@ public class Author {
 	
 	private LocalDate birthDate;
 
+    private String photo;
+
 	@OneToMany(
 			mappedBy = "author",
 			cascade = CascadeType.ALL
